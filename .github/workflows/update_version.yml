@@ -1,0 +1,31 @@
+name: Update Version
+
+on:
+  push:
+    paths:
+      - 'file1.c'
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up g++ compiler
+      run: sudo apt-get install g++
+
+    - name: Compile C++ program
+      run: g++ update_version.cpp -o update_version
+
+    - name: Run C++ program
+      run: ./update_version
+
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add file2.txt
+        git commit -m "Auto-increment version"
+        git push
